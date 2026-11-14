@@ -267,3 +267,39 @@ Each agent gets: the shared company skill, its own role skill, a budget guardrai
 - Sheets: Master LRPB KPI's 2.0 `1Md-QQZq83q7dewgdRPy9q_UUCI1pjbbcKgT93iHlh7s`; LRPB Phase 1 KPI Automation `1ws6Q5xr8EoS7ExjN1XJnQTA8yBxOa6RrPMbGfF7rHTk`.
 - Slack: #weekly-kpi-summary `C0BRZR5AK3P`, #kpi-workflows-notes `C09CTH7DW10`, #ai-agent `C0A4MJUTGD9`, #contracts `C0271D9K9M4`, #property-visits `C025M71TRMZ`.
 - Asana workspace `1147787984668669`; Deals Active project `1210513261528877`.
+
+---
+
+## 11. Reference: the "Grok Bot" model from the videos, mapped to our stack
+
+Cody shared two Nate Herk videos (Nov 13 DM): a Grok Bot walkthrough (youtube.com/watch?v=SJywU4UQryQ) and "Build & Sell Grok Bots (2 Hour Course)" (youtube.com/watch?v=4hKJ9X6rGFo, Aug 31 2026). Grok Bot is xAI's always-on agent product (beta since Aug 11 2026). The videos could not be opened from this environment; the summary below comes from the creator's own course page and posts plus third-party notes.
+
+**How Nate Herk uses it day to day**
+- One "front door" bot (his is a chief of staff named Klaus) is the only bot he talks to. It delegates to narrow operator bots that each do one job well.
+- "Four Cs" per bot: Context (who it is, its SOPs), Connections (Slack, Gmail, ClickUp, QuickBooks, GitHub...), Capabilities (skills and templates), Cadence (routines on a schedule or on an event such as a new Slack message).
+- Bots share global memory plus their own memory; they @-mention each other and hand work off without him routing it; "channels" let several bots discuss one topic (all-hands update, leadership review).
+- Everything the bots do is logged to a task tracker (ClickUp) so he can audit it; approvals pause a bot before risky actions.
+- Bots run on a shared cloud computer with a browser, files and terminal, so they can do browser work and keep running when his laptop is off.
+
+**Cost reality.** Grok Bot is sold only inside xAI plans ($30, $100 or $200 per month per seat, metered weekly), so adopting it would break the no-new-spend rule. Everything above except the shared cloud computer already exists in our n8n Agents, and the cloud-computer part is covered by Claude Max cloud sessions.
+
+| Grok Bot concept | LRPB equivalent (already paid) |
+|---|---|
+| Front-door / executive bot | LRPB Assistant (n8n master agent, live in Slack DMs and channels) |
+| Operator bots with one job | n8n sub-agents: Email, Documents, CRM, plus KPI, TC/Dispo, Admin/Ops, QC from this plan |
+| Context (role, SOPs) | n8n Agent skills built from the LRPB handbook and reference files (Phase 0) |
+| Connections | n8n credentials already in place (Slack, Gmail x5, Drive, Sheets, Asana, Salesmate API, Twilio) plus Zapier for Salesmate/CallRail/DocuSign events |
+| Capabilities / templates | Tool workflows (Read Drive File, Add Salesmate Note pattern); agents cloned as templates for new roles |
+| Cadence / routines | n8n Agent scheduled tasks (cron) and event triggers via workflows and Zapier |
+| Global + individual memory | Master observational memory (on) plus the decisions-log data table; sub-agents stateless by design |
+| Bots @-mention each other | Parent/child delegation with structured briefs; sub-agents can have their own sub-agents |
+| Channels for bot discussion | Slack #ai-command-center and the QC reviewer round-trip |
+| Agent logging to ClickUp | n8n session logs plus the Admin agent writing run summaries to Asana |
+| Approvals | requireApproval on write tools, Approve/Decline buttons in Slack |
+| Shared cloud computer | Claude Max cloud sessions (browser, files, terminal) for build and analysis jobs |
+
+**Shahin's daily front-door routines (first ones to build, on the existing master agent)**
+1. 7:45 AM Central, weekdays: DM brief. Overdue and due-today Asana tasks, unread title/lender/tenant emails needing action across the three inboxes, closings this week, anything flagged in property channels overnight. Ends with "reply with a number to start that item".
+2. On demand, any time: "status of <address>" and "draft a reply to <person>" (already works), "log this" to create an Asana task or decisions-log row.
+3. 5:30 PM Central, weekdays: end-of-day log. What the agents did today (sessions, drafts saved, tasks created), what is still open, what needs Cody or Kris tomorrow. Posted to the DM and, on request, to #ai-command-center.
+4. Monday 7:30 AM: weekly KPI report (Phase 2) and ops digest (Phase 4).
