@@ -3,6 +3,8 @@
 Prepared 2026-11-14 for Little Rock Property Buyers (LRPB) / Journey Estate Investments.
 Scope: build a central AI operations manager with specialist sub-agents using only the tools and subscriptions LRPB already pays for.
 
+Tracking: Asana project **LRPB AI Agent System** (Journey Estate Investments team), https://app.asana.com/1/1147787984668669/project/1220536824635018. Every checklist item in section 7 and every open question in section 9 is a task there.
+
 ---
 
 ## 1. Executive summary
